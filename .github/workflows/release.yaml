@@ -1,0 +1,30 @@
+name: Automated Release and Notification
+
+on:
+  push:
+    branches:
+      - production
+jobs:
+  release:
+    name: Automated Release
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Up Git
+        run: |
+          git config --global user.name "MANISANKARDIVI"
+          git config --global user.email "manisankar.divi@gmail.com"
+
+      - name: Run Release Script
+        id: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          REPO_OWNER: "MANISANKARDIVI" # Replace with your GitHub username q
+          REPO_NAME: "test-ver" # Replace with your repository name
+        run: |
+          bash ./release.sh
